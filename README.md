@@ -1,2 +1,3 @@
-# card_simulation
+# Multi-threaded card simulation
 Software Development CA
+
