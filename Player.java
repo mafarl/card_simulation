@@ -1,8 +1,5 @@
-package card_simulation;
 import java.util.ArrayList;
 import java.util.Random;
-import Card.*;
-import CardDeck.*;
 
 public class Player{
 
@@ -11,7 +8,7 @@ public class Player{
 	private int playerIndex;
 	
 	// Method
-	public int getHand(){
+	public ArrayList<Card> getHand(){
 		return cards;
 	}
 	
@@ -39,8 +36,9 @@ public class Player{
 	
 	public int removeCard(){
 		Random rand = new Random();
+		int randomElement;
 		while (true){
-			int randomElement = cards.get(rand.nextInt(cards.size()));
+			randomElement = cards.get(rand.nextInt(cards.size())).getValueOf();
 			if (randomElement != playerIndex){
 				break;
 			}
@@ -49,9 +47,6 @@ public class Player{
 		return randomElement;
 	}
 	
-	public void addCard(Card card){
-		cards.add(card);
-	}
 	
 	// Constructor
 	public Player(ArrayList<Card> cards, int playerIndex){

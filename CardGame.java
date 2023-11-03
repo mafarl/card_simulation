@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import Card;
 
 
 public class CardGame{
