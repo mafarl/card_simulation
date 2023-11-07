@@ -22,6 +22,12 @@ public class CardDeck{
 			cards.add(card);
 		}
 		
+		// Add card at the top of the deck (index 0 in cards)
+		public void addTopCard(){}
+		
+		// Remove card from the bottom of the deck (index -1 in cards)
+		public void removeCard(){}
+		
 		// Constructor
 		public CardDeck(int deckIndex){
 			this.deckIndex = deckIndex;
