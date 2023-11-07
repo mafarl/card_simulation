@@ -4,6 +4,7 @@ import java.io.*;
 public class Helper{
 
 	public static boolean checkPack(String fileName, int n){
+		// POTENTIALLY we can first arrange rows into an array (more efficient)
 		try {
 			  File packFile = new File(fileName);
 			  Scanner myReader = new Scanner(packFile);

@@ -49,7 +49,7 @@ public class Player{
 	
 	
 	// Constructor
-	public Player(ArrayList<Card> cards, int playerIndex){
+	public Player(int playerIndex){
 		this.cards = cards;
 		this.playerIndex = playerIndex;
 	}
