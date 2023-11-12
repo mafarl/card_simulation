@@ -23,7 +23,9 @@ public class CardDeck{
 		}
 		
 		// Add card at the top of the deck (index 0 in cards)
-		public void addTopCard(){}
+		public Card removeTopCard(){
+			return cards.remove(0);
+		}
 		
 		// Remove card from the bottom of the deck (index -1 in cards)
 		public void removeCard(){}

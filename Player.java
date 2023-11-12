@@ -16,15 +16,19 @@ public class Player{
 		return playerIndex;
 	}
 	
-	public void addCard(Card card){
-		cards.add(card);
-	}
+
 	
 	// Check if it's the winning the hand
 	public boolean checkHand(){
 		boolean isWinning = false;
+
+		for (int i = 0; i < 4; i++){
+			System.out.println(cards.get(i).getValueOf());
+		}
+
 		for (int i = 1; i < 4; i++){
-			if (cards.get(0) == cards.get(i)){
+
+			if (cards.get(0).getValueOf() == cards.get(i).getValueOf()){
 				isWinning = true;
 			} else {
 				isWinning = false;
@@ -34,24 +38,55 @@ public class Player{
 		return isWinning;
 	}
 	
-	public int removeCard(){
+	public Card removeCard(){
 		Random rand = new Random();
-		int randomElement;
+		Card randomElement;
 		while (true){
-			randomElement = cards.get(rand.nextInt(cards.size())).getValueOf();
-			if (randomElement != playerIndex){
+			randomElement = cards.get(rand.nextInt(cards.size()));
+			if (randomElement.getValueOf() != playerIndex + 1){
 				break;
 			}
 		}
-		cards.remove(Integer.valueOf(randomElement));
+		System.out.println("Player " + Integer.toString(playerIndex + 1) + "discards " + Integer.toString(randomElement.getValueOf()));
+		cards.remove(randomElement);
 		return randomElement;
 	}
 	
+	public void addCard(Card card){
+		cards.add(card);
+	}
 	
 	// Constructor
-	public Player(ArrayList<Card> cards, int playerIndex){
+	public Player(int playerIndex){
 		this.cards = cards;
 		this.playerIndex = playerIndex;
+	}
+
+	private class PlayerThread extends Thread{
+
+
+		private Player player;
+
+		@Override
+		public void run(){
+			if (player.checkHand()) {
+				System.out.println("Player " + Integer.toString(playerIndex + 1) + "won");
+				System.out.println("PRINT THE HAND HERE for test");
+				gameWon();
+			}
+			while (!player.checkHand()){
+
+			}
+		}
+
+		public synchronized boolean gameWon(){
+			return true;
+		}
+
+		// Constructor
+		public PlayerThread(){
+		this.player = player;
+		}
 	}
 
 }

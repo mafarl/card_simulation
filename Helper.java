@@ -45,22 +45,18 @@ public class Helper{
 				System.out.println("Incorrect file name/path");
 			} catch (NumberFormatException e){
 				System.out.println("Invalid card face value, integer less than 1 found");
+			} catch (NoSuchElementException e){
+				System.out.println("Invalid pack, whitespace in file");
 			}
 			
 		}
 	}
 
-	public static boolean checkPack(File packFile, int n) throws FileNotFoundException {
+	public static boolean checkPack(File packFile, int n) throws FileNotFoundException, NoSuchElementException {
 		
 			  Scanner myReader = new Scanner(packFile);
 			  int line_counter = 0;
 			  while (myReader.hasNextLine()) {
-
-					// Check for whitespace
-					if (myReader.nextLine() == ""){
-						System.out.println("Whitespace in file, invalid pack");
-						return false;
-					}
 
 					int number = myReader.nextInt();
 					line_counter ++;
