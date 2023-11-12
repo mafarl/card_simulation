@@ -17,18 +17,17 @@ public class CardDeck{
 		public ArrayList<Card> getDeck(){
 			return cards;
 		}
-		
-		public void addCard(Card card){
+
+		// add card to bottom of deck
+		public synchronized void addCard(Card card){
 			cards.add(card);
 		}
 		
-		// Add card at the top of the deck (index 0 in cards)
-		public Card removeTopCard(){
+		// remove card from top of deck
+		public synchronized Card removeTopCard(){
 			return cards.remove(0);
 		}
 		
-		// Remove card from the bottom of the deck (index -1 in cards)
-		public void removeCard(){}
 		
 		// Constructor
 		public CardDeck(int deckIndex){

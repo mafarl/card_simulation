@@ -19,12 +19,9 @@ public class Player{
 
 	
 	// Check if it's the winning the hand
-	public boolean checkHand(){
+	public synchronized boolean checkHand(){
 		boolean isWinning = false;
 
-		for (int i = 0; i < 4; i++){
-			System.out.println(cards.get(i).getValueOf());
-		}
 
 		for (int i = 1; i < 4; i++){
 
@@ -38,7 +35,7 @@ public class Player{
 		return isWinning;
 	}
 	
-	public Card removeCard(){
+	public synchronized Card removeCard(){
 		Random rand = new Random();
 		Card randomElement;
 		while (true){
@@ -47,7 +44,7 @@ public class Player{
 				break;
 			}
 		}
-		System.out.println("Player " + Integer.toString(playerIndex + 1) + "discards " + Integer.toString(randomElement.getValueOf()));
+		System.out.println("Player " + Integer.toString(playerIndex + 1) + " discards " + Integer.toString(randomElement.getValueOf()));
 		cards.remove(randomElement);
 		return randomElement;
 	}
@@ -62,31 +59,6 @@ public class Player{
 		this.playerIndex = playerIndex;
 	}
 
-	private class PlayerThread extends Thread{
 
-
-		private Player player;
-
-		@Override
-		public void run(){
-			if (player.checkHand()) {
-				System.out.println("Player " + Integer.toString(playerIndex + 1) + "won");
-				System.out.println("PRINT THE HAND HERE for test");
-				gameWon();
-			}
-			while (!player.checkHand()){
-
-			}
-		}
-
-		public synchronized boolean gameWon(){
-			return true;
-		}
-
-		// Constructor
-		public PlayerThread(){
-		this.player = player;
-		}
-	}
 
 }
