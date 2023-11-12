@@ -1,17 +1,20 @@
 public class Card{
 	
 	// Attributes
-	int cardIndex;
-	int cardValue;
+	private int cardIndex;
+	private int cardValue;
 	
 	// Methods
-	
 	public int getValueOf(){
 		return cardValue;
 	}
 	
+	public int getIndexOf(){
+		return cardIndex;
+	}
+	
 	// Constructor
-	public Card(int cardIndex, int cardValue){
+	public Card(int cardValue){
 		this.cardIndex = cardIndex;
 		this.cardValue = cardValue;
 	}
