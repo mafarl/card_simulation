@@ -31,7 +31,7 @@ public class CardGame{
 
 					// removing card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
-					allCardDecks.get((playerIndex+1)%2).addCard(removedCard);
+					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
 					// takes card from top of deck to left of player, adds to hand
 					Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
