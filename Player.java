@@ -16,7 +16,6 @@ public class Player{
 		return playerIndex;
 	}
 	
-
 	
 	// Check if it's the winning the hand
 	public synchronized boolean checkHand(){
@@ -44,7 +43,7 @@ public class Player{
 				break;
 			}
 		}
-		System.out.println("Player " + Integer.toString(playerIndex + 1) + " discards " + Integer.toString(randomElement.getValueOf()));
+		
 		cards.remove(randomElement);
 		return randomElement;
 	}

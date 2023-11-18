@@ -3,7 +3,7 @@ import java.io.*;
 
 public class Helper{
 
-	    public static int playerAmount(){
+	public static int playerAmount(){
 		// Check no players
 		while (true){
 			try {
@@ -76,4 +76,62 @@ public class Helper{
 			  myReader.close();
 			  return true;
 	}
+	
+	
+	public static void outputFilePlayer(int playerIndex, ArrayList<Card> cardsInHand){
+		try {
+			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
+			File myObj = new File(filename);
+			if (myObj.createNewFile()) {
+				System.out.println("File created: " + myObj.getName());
+				
+				FileWriter myWriter = new FileWriter(filename);
+				for (int i=0; i<3; i++){
+					myWriter.write(Integer.toString(cardsInHand.get(i).getValueOf()));
+					myWriter.write("\n");
+				}
+				myWriter.write(Integer.toString(cardsInHand.get(3).getValueOf()));
+				myWriter.close();
+			} else {
+				System.out.println("File already exists.");
+			}
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void outputFileDeck(int deckIndex, ArrayList<Card> cardsInDeck){
+		try {
+			String filename = "deck"+ Integer.toString(deckIndex +1) +"_output.txt";
+			File myObj = new File(filename);
+			if (myObj.createNewFile()) {
+				
+				FileWriter myWriter = new FileWriter(filename);
+				for (int i=0; i<3; i++){
+					myWriter.write(Integer.toString(cardsInDeck.get(i).getValueOf()));
+					myWriter.write("\n");
+				}
+				myWriter.write(Integer.toString(cardsInDeck.get(3).getValueOf()));
+				myWriter.close();
+			} else {
+				System.out.println("File already exists.");
+			}
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	
+	public static String printHand(int playerIndex, ArrayList<Card> cardsInHand){
+		String toOutput = "";
+		
+		for (int i = 0; i < 4; i++){
+			toOutput += Integer.toString(cardsInHand.get(i).getValueOf()) + " ";
+		}
+		
+		return toOutput;
+	}
+	
 }
