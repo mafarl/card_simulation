@@ -43,9 +43,6 @@ public class CardGameTest{
 		}
 
 
-
-
-
 		// Give cards to players
 		int counter = 0;
 		while(counter < 4*numPlayers){

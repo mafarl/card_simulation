@@ -31,10 +31,10 @@ public class CardGame{
 
 					// removing card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
-					allCardDecks.get(playerIndex % (allPlayers.size()-1)).addCard(removedCard);
+					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
 					// takes card from top of deck to left of player, adds to hand
-					Card topCard = allCardDecks.get(playerIndex).removeTopCard();
+					Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
 					System.out.println("Player" + Integer.toString(playerIndex+1) + "gets card " + Integer.toString(topCard.getValueOf()));
 					player.addCard(topCard);
 					
@@ -43,18 +43,15 @@ public class CardGame{
 			}
 		}
 
-		public synchronized boolean gameWon(){
+		public synchronized void gameWon(){ 
 			System.out.println("Player " + Integer.toString(playerIndex + 1) + "won");
-			System.out.println("PRINT THE HAND HERE for test");
+			System.out.println("NEED TO OUTPUT ALL FILES");
 			for (int i = 0; i < allPlayers.size(); i++ ){
 				if (i != playerIndex){
-					allPlayersThreads.get(i).interrupt();
+					allPlayersThreads.get(i).stop();
 				}
 			}
-			System.out.println("Player " + Integer.toString(playerIndex + 1) + "won");
-			System.out.println("PRINT THE HAND HERE for test");
 			allPlayersThreads.get(playerIndex).interrupt();
-			return true;
 		}
 
 		// Constructor
