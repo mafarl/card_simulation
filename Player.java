@@ -1,6 +1,13 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Represents an individual player. 
+ * @author Ashley Card
+ * @author Maryia Fralova
+ * @version 1.0 
+ */
+
 public class Player{
 
 	// Attributes
@@ -8,19 +15,21 @@ public class Player{
 	private int playerIndex;
 	
 	// Method
+
+	/**
+	 * Returns players arraylist of card objects
+	 * @return cards arraylist of cards
+	 */
 	public ArrayList<Card> getHand(){
 		return cards;
 	}
-	
-	public int getIndex(){
-		return playerIndex;
-	}
-	
-	
-	// Check if it's the winning the hand
-	public synchronized boolean checkHand(){
-		boolean isWinning = false;
 
+	/**
+	 * Checks if cards in players hand all match
+	 * @return isWinning boolean value of check
+	 */
+	public boolean checkHand(){
+		boolean isWinning = false;
 
 		for (int i = 1; i < 4; i++){
 
@@ -34,7 +43,7 @@ public class Player{
 		return isWinning;
 	}
 	
-	public synchronized Card removeCard(){
+	public Card removeCard(){
 		Random rand = new Random();
 		Card randomElement;
 		while (true){
@@ -53,6 +62,11 @@ public class Player{
 	}
 	
 	// Constructor
+
+	/**
+	 * Creates a player object
+	 * @param playerIndex index of player
+	 */
 	public Player(int playerIndex){
 		this.cards = cards;
 		this.playerIndex = playerIndex;

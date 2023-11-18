@@ -1,6 +1,13 @@
 import java.util.*;
 import java.io.*;
 
+/**
+ * Helper class for methods in other classes. 
+ * @author Ashley Card
+ * @author Maryia Fralova
+ * @version 1.0 
+ */
+
 public class Helper{
 
 	public static int playerAmount(){
