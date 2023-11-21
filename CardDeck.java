@@ -12,7 +12,6 @@ public class CardDeck{
 
 		// Attributes
 		private ArrayList<Card> cards = new ArrayList<Card>();
-		private int deckIndex;
 		
 		// Methods
 
