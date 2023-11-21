@@ -48,7 +48,7 @@ public class CardGame{
 			}
 		}
 
-		public synchronized void gameWon(){ 
+		public void gameWon(){ 
 			System.out.println("Player " + Integer.toString(playerIndex + 1) + " wins");
 			System.out.println("Player " + Integer.toString(playerIndex + 1) + " final hand: " + Helper.printHand(playerIndex, player.getHand()));
 			
