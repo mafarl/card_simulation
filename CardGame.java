@@ -102,7 +102,7 @@ public class CardGame{
         for (int i = 0; i < numPlayers; i++){
 			Player play = new Player(i, new ArrayList<Card>());
 			allPlayers.add(play);
-			CardDeck deck = new CardDeck();
+			CardDeck deck = new CardDeck(new ArrayList<Card>());
 			allCardDecks.add(deck);
 			PlayerThread playerThread = new PlayerThread(play, i);
 			allPlayersThreads.add(playerThread);

@@ -31,7 +31,7 @@ public class CardDeck{
 		}
 		
 		// Constructor
-		public CardDeck(){
+		public CardDeck(ArrayList<Card> cards){
 			this.cards = cards;
 		}
 }

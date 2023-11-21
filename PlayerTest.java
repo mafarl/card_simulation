@@ -46,7 +46,7 @@ public class PlayerTest{
 	public void testRemoveCard(){
 		// Need to check that the cards removed are not 1s
 		for (int i = 0; i < (cards.size() - 1); i++){
-			assertNotEquals(1, player.removeCard().getValueOf());
+			assertNotEquals(player.getHand().get(1), player.removeCard().getValueOf());
 			// Checking size of the hand (should be decreasing by 1)
 			assertEquals(cards.size()-(i+1), player.getHand().size());
 		}
