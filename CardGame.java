@@ -8,7 +8,9 @@ public class CardGame{
 	private static ArrayList<CardDeck> allCardDecks = new ArrayList<CardDeck>();
 	private static ArrayList<Player> allPlayers = new ArrayList<Player>();
 	private static ArrayList<PlayerThread> allPlayersThreads = new ArrayList<PlayerThread>();
-
+	
+	//Records if a player has won the game. Volatile to force compiler to check won every time
+	//static volatile boolean won = false;
 
 	static class PlayerThread extends Thread{
 
@@ -28,10 +30,15 @@ public class CardGame{
 					catch (InterruptedException e){
 						break;
 					}
+					
+					/*if (player.checkHand()){
+						won = true;
+						gameWon();
+					}*/
 
 					// removing card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
-					System.out.println("Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())));
+					System.out.println("Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1));
 					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
 					// takes card from top of deck to left of player, adds to hand
@@ -42,6 +49,7 @@ public class CardGame{
 					System.out.println("Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(playerIndex, player.getHand()));
 					
 				}
+				
 				if (player.checkHand()){
 					gameWon();
 				}
@@ -89,10 +97,10 @@ public class CardGame{
 		}
 
 		
-
+		
 		// making all the players and decks
         for (int i = 0; i < numPlayers; i++){
-			Player play = new Player(i);
+			Player play = new Player(i, new ArrayList<Card>());
 			allPlayers.add(play);
 			CardDeck deck = new CardDeck();
 			allCardDecks.add(deck);
