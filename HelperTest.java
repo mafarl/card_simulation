@@ -16,30 +16,22 @@ public class HelperTest{
 	
 	
 	// Set up and get the pack
-	@Before
-	public void setUp(){
-		// Create a test file   
+	Card card1 = new Card(1);
+	Card card2 = new Card(2);
+	Card card3 = new Card(3);
+	cardsInDeck.add(card1);
+	cardsInDeck.add(card2);
+	cardsInDeck.add(card3);
+	
+	cardsInPlayerHand.add(card1);
+	cardsInPlayerHand.add(card2);
+	cardsInPlayerHand.add(card3);
+
+	
+	@Test
+	public void testGetPack(){
 		tempFile = Helper.getPack();
 		assertTrue(tempFile.exists());
-		
-		Card card1 = new Card(1);
-		Card card2 = new Card(2);
-		Card card3 = new Card(3);
-		cardsInDeck.add(card1);
-		cardsInDeck.add(card2);
-		cardsInDeck.add(card3);
-		
-		cardsInPlayerHand.add(card1);
-		cardsInPlayerHand.add(card2);
-		cardsInPlayerHand.add(card3);
-	}
-	
-	
-	@After
-	public void tearDown(){
-		tempFile.delete();
-		numPlayers = null;
-		cardsInDeck = null;
 	}
 
 	
