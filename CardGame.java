@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class CardGame{
@@ -9,8 +10,11 @@ public class CardGame{
 	private static ArrayList<Player> allPlayers = new ArrayList<Player>();
 	private static ArrayList<PlayerThread> allPlayersThreads = new ArrayList<PlayerThread>();
 	
-	//Records if a player has won the game. Volatile to force compiler to check won every time
-	//static volatile boolean won = false;
+	// Records if a player has won the game
+	// Volatile to force compiler to check won every time
+	static volatile boolean won = false;
+	// To make sure only one player wins in a single game
+	static AtomicBoolean counter = new AtomicBoolean(false);
 
 	static class PlayerThread extends Thread{
 
@@ -20,10 +24,22 @@ public class CardGame{
 		@Override
 		public void run(){
 			if (player.checkHand()) {
-				gameWon();
+				if (counter.get() == false){
+					counter = new AtomicBoolean(true);
+					won = true;
+					gameWon(player, playerIndex);
+				}
 			}
 			else{
-				while (!player.checkHand()){
+				while (!won){
+					
+					if (player.checkHand()){
+						if (counter.get() == false){
+							counter = new AtomicBoolean(true);
+							won = true;
+							gameWon(player, playerIndex);
+						}
+					}
 					try {
 						Thread.sleep(100);
 					}
@@ -31,10 +47,6 @@ public class CardGame{
 						break;
 					}
 					
-					/*if (player.checkHand()){
-						won = true;
-						gameWon();
-					}*/
 
 					// removing card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
@@ -49,26 +61,9 @@ public class CardGame{
 					System.out.println("Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(playerIndex, player.getHand()));
 					
 				}
-				
-				if (player.checkHand()){
-					gameWon();
-				}
 			}
 		}
 
-		public void gameWon(){ 
-			System.out.println("Player " + Integer.toString(playerIndex + 1) + " wins");
-			System.out.println("Player " + Integer.toString(playerIndex + 1) + " final hand: " + Helper.printHand(playerIndex, player.getHand()));
-			
-			for (int i = 0; i < allPlayers.size(); i++ ){
-				Helper.outputFilePlayer(i, allPlayers.get(i).getHand());
-				Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
-				if (i != playerIndex){
-					allPlayersThreads.get(i).interrupt();
-				}
-			}
-			
-		}
 
 		// Constructor
 		public PlayerThread(Player player, int playerIndex){
@@ -76,6 +71,25 @@ public class CardGame{
 			this.playerIndex = playerIndex;
 		}
 	}
+	
+	
+	// What each the thread that won prints out at the end
+	public static synchronized void gameWon(Player player, int playerIndex){
+		System.out.println("Player " + Integer.toString(playerIndex + 1) + " wins");
+		System.out.println("Player " + Integer.toString(playerIndex + 1) + " exits");
+		System.out.println("Player " + Integer.toString(playerIndex + 1) + " final hand: " + Helper.printHand(playerIndex, player.getHand()));
+		
+		for (int i = 0; i < allPlayers.size(); i++ ){
+			Helper.outputFilePlayer(i, allPlayers.get(i).getHand());
+			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
+			if (i != playerIndex){
+				allPlayersThreads.get(i).interrupt();
+			}
+		}
+		
+		Thread.currentThread().interrupt();
+	}
+	
 
 	public static void main(String[] args) {
 
@@ -97,7 +111,7 @@ public class CardGame{
 		}
 
 		
-		
+		// Do separate functions for that
 		// making all the players and decks
         for (int i = 0; i < numPlayers; i++){
 			Player play = new Player(i, new ArrayList<Card>());
@@ -132,9 +146,7 @@ public class CardGame{
 			allPlayersThreads.get(i).start();
 		}
 
-
 	}
-
 
 }
 
