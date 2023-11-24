@@ -32,17 +32,43 @@ public class HelperTest{
 		cardsInPlayerHand.add(card1);
 		cardsInPlayerHand.add(card2);
 		cardsInPlayerHand.add(card3);
+		
+
+			// Create a file here and input valid data with 8*numPlayers - 1
+			// Then we'll be adding one invalid string in each exception test
+		try {
+			File myObj = new File("testPath.txt");
+			if (myObj.createNewFile()) {
+				
+				FileWriter myWriter = new FileWriter(filename);
+				for (int i=0; i<23; i++){
+					myWriter.write(1);
+					myWriter.write("\n");
+				}
+				myWriter.close();
+			} 
+		} catch (IOException e) {}
 	}
 	
 	@After
 	public void tearDown(){
 		cardsInDeck = null;
 		cardsInPlayerHand = null;
+		
+		// delete the file
+		File myObj = new File("testPath.txt"); 
+		myObj.delete();
 	}
 
 
 	@Test
 	public void testGetPackFileNotFound(){
+		try{
+			FileWriter myWriter = new FileWriter("testPath.txt");
+            myWriter.write(1);
+            myWriter.close();
+        } catch (IOException e){}
+        
 		try{
 			Helper.getPack(3, "RandomFile.txt");
 			fail();
@@ -53,6 +79,12 @@ public class HelperTest{
 	
 	@Test
 	public void testGetPackValid(){
+		try{
+			FileWriter myWriter = new FileWriter("testPath.txt");
+            myWriter.write(1);
+            myWriter.close();
+        } catch (IOException e){}
+        
 		assertTrue(Helper.getPack(3, "testPath.txt"));
 	}
 	
@@ -60,9 +92,8 @@ public class HelperTest{
 	public void testGetPackNumberFormat(){
 		try{
 			FileWriter myWriter = new FileWriter("testPath.txt");
-			FileWriter myWriter = new FileWriter("testPath.txt");
             myWriter.write(-1);
-            myWriter.write("\n");
+            myWriter.close();
         } catch (IOException e){}
         
 		try{
@@ -77,8 +108,9 @@ public class HelperTest{
 	@Test
 	public void testGetPackInputMismatch(){
 		try{
+			FileWriter myWriter = new FileWriter("testPath.txt");
             myWriter.write("a");
-            myWriter.write("\n ");
+            myWriter.close();
         } catch (IOException e){}
         
 		try{
@@ -91,6 +123,12 @@ public class HelperTest{
 	
 	@Test
 	public void testGetPackNoSuchElement(){
+		try{
+			FileWriter myWriter = new FileWriter("testPath.txt");
+            myWriter.write(" ");
+            myWriter.close();
+        } catch (IOException e){}
+        
 		try{
 			Helper.getPack(3, "testPath.txt");
 			fail();
