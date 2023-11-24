@@ -24,6 +24,11 @@ public class Player{
 		return cards;
 	}
 
+	public int getPlayerIndex(){
+		return playerIndex;
+	}
+
+
 	/**
 	 * Checks if cards in players hand all match
 	 * @return isWinning boolean value of check
@@ -67,7 +72,7 @@ public class Player{
 	 * Creates a player object
 	 * @param playerIndex index of player
 	 */
-	public Player(int playerIndex){
+	public Player(int playerIndex, ArrayList<Card> cards){
 		this.cards = cards;
 		this.playerIndex = playerIndex;
 	}

@@ -12,7 +12,6 @@ public class CardDeck{
 
 		// Attributes
 		private ArrayList<Card> cards = new ArrayList<Card>();
-		private int deckIndex;
 		
 		// Methods
 
@@ -32,7 +31,7 @@ public class CardDeck{
 		}
 		
 		// Constructor
-		public CardDeck(){
+		public CardDeck(ArrayList<Card> cards){
 			this.cards = cards;
 		}
 }

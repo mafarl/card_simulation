@@ -10,53 +10,45 @@ import java.io.*;
 
 public class Helper{
 
-	public static int playerAmount(){
+	public static int playerAmount(Scanner myObj){
 		// Check no players
-		while (true){
 			try {
-                Scanner myObj = new Scanner(System.in);
-                System.out.println("Enter number of players: ");
                 int numPlayers = myObj.nextInt();
 				if (numPlayers >= 1){
-                	return(numPlayers);
-                    
+                    return(numPlayers);
 				}
 				System.out.println("Enter an integer greater than 0");
 			} catch (InputMismatchException e) {
 				System.out.println("Invalid player number input");
 			}
+			return(-1);
 		}
-    }
 
-	public static File getPack(int playerAmount){
-		while (true){
-			try{
-				// Getting filename
-				Scanner myObj2 = new Scanner(System.in);
-				System.out.println("Enter file path");
-				String fileName = myObj2.nextLine();
-				File packFile = new File(fileName); 
 
-				if (!packFile.exists()){
-					throw new FileNotFoundException();
-				}
-				
-				// Check if the pack is valid
-				if (Helper.checkPack(packFile, playerAmount)){
-					System.out.println("Card pack loaded successfully");
-					return packFile;
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid card face value, non-integer found");
-			} catch (FileNotFoundException e){
-				System.out.println("Incorrect file name/path");
-			} catch (NumberFormatException e){
-				System.out.println("Invalid card face value, integer less than 1 found");
-			} catch (NoSuchElementException e){
-				System.out.println("Invalid pack, whitespace in file");
+	public static boolean getPack(int playerAmount, String fileName){
+		try{
+			// Getting filename
+			File packFile = new File(fileName); 
+
+			if (!packFile.exists()){
+				throw new FileNotFoundException();
 			}
 			
+			// Check if the pack is valid
+			if (Helper.checkPack(packFile, playerAmount)){
+				System.out.println("Card pack loaded successfully");
+				return(true);
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("Invalid card face value, non-integer found");
+		} catch (FileNotFoundException e){
+			System.out.println("Incorrect file name/path");
+		} catch (NumberFormatException e){
+			System.out.println("Invalid card face value, integer less than 1 found");
+		} catch (NoSuchElementException e){
+			System.out.println("Invalid pack, whitespace in file");
 		}
+		return(false);
 	}
 
 	public static boolean checkPack(File packFile, int n) throws FileNotFoundException, NoSuchElementException {
