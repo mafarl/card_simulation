@@ -40,30 +40,81 @@ public class HelperTest{
 		cardsInPlayerHand = null;
 	}
 
-	// doesnt work this way
+
 	@Test
-	public void testGetPack(){
-		tempFile = Helper.getPack(2);
-		String filePath = "testPath.txt";
+	public void testGetPackFileNotFound(){
+		try{
+			Helper.getPack(3, "RandomFile.txt");
+			fail();
+		} catch (FileNotFoundException e) {
 
-		String simulatedUserInput = filePath;
-
-		InputStream savedStandardInputStream = System.in;
-		System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
-
-		// code that needs multiple user inputs
-
-		System.setIn(savedStandardInputStream);
-
-		assertTrue(tempFile.exists());
 		}
+	}
+	
+	@Test
+	public void testGetPackValid(){
+		assertTrue(Helper.getPack(3, "testPath.txt"));
+	}
+	
+	@Test
+	public void testGetPackNumberFormat(){
+		try{
+			FileWriter myWriter = new FileWriter("testPath.txt");
+			FileWriter myWriter = new FileWriter("testPath.txt");
+            myWriter.write(-1);
+            myWriter.write("\n");
+        } catch (IOException e){}
+        
+		try{
+			Helper.getPack(3, "testPath.txt");
+			fail();
+		} catch (NumberFormatException e) {
+			//Passes if this is called. No Such element exception is thrown if the program asks for another user input
+            //as the first input provided is invalid.
+		}
+	}
+	
+	@Test
+	public void testGetPackInputMismatch(){
+		try{
+            myWriter.write("a");
+            myWriter.write("\n ");
+        } catch (IOException e){}
+        
+		try{
+			Helper.getPack(3, "testPath.txt");
+			fail();
+		} catch (InputMismatchException e) {
 
-	// doesnt work this way
-	// possible to use system.in to simulate user input
+		}
+	}
+	
+	@Test
+	public void testGetPackNoSuchElement(){
+		try{
+			Helper.getPack(3, "testPath.txt");
+			fail();
+		} catch (NoSuchElementException e) {
+
+		}
+	}
+	
+
 	@Test
 	public void testPlayerAmount(){
 		// Need to print your own number in the terminal and check
-		assertEquals("3", Helper.playerAmount());
+		String test1 = "string input";
+		int test2 = -10;
+		int test3 = 3;
+		Scanner scanner1 = new Scanner(test1);
+		// String input
+		assertEquals(-1, Helper.playerAmount());
+		Scanner scanner2 = new Scanner(test2);
+		// Negative player amount input
+		assertEquals(-1, Helper.playerAmount());
+		Scanner scanner3 = new Scanner(test3);
+		// Correct input
+		assertEquals(3, Helper.playerAmount());
 	}
 	
 	
