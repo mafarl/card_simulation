@@ -56,8 +56,12 @@ public class HelperTest{
 		cardsInPlayerHand = null;
 		
 		// delete the file
-		File myObj = new File("testPath.txt"); 
-		myObj.delete();
+		Path path = Paths.get("testPath.txt");
+		try{
+			Files.delete(path);
+		} catch (IOException e) {
+			System.out.println("IOException");
+		}
 	}
 
 
