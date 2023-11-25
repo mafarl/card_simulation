@@ -150,13 +150,13 @@ public class HelperTest{
 		int test3 = 3;
 		Scanner scanner1 = new Scanner(test1);
 		// String input
-		assertEquals(-1, Helper.playerAmount());
+		assertEquals(-1, Helper.playerAmount(scanner1));
 		Scanner scanner2 = new Scanner(test2);
 		// Negative player amount input
-		assertEquals(-1, Helper.playerAmount());
+		assertEquals(-1, Helper.playerAmount(scanner2));
 		Scanner scanner3 = new Scanner(test3);
 		// Correct input
-		assertEquals(3, Helper.playerAmount());
+		assertEquals(3, Helper.playerAmount(scanner3));
 	}
 	
 	
