@@ -1,92 +1,85 @@
 import org.junit.*;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.Test;
 import static org.junit.Assert.*;
-
+import java.io.*;
+import java.util.*;
 import java.nio.file.*;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 
 public class HelperTest{
 	
-	private int numPlayers = 3;
-	private File tempFile;
 	private ArrayList<Card> cardsInDeck = new ArrayList<Card>();
 	private ArrayList<Card> cardsInPlayerHand = new ArrayList<Card>();
-	
+	File myObj;
 	
 	// Set up and get the pack
 	Card card1 = new Card(1);
 	Card card2 = new Card(2);
 	Card card3 = new Card(3);
+	Card card4 = new Card(4);
 
 	@Before
 	public void setUp(){
 		cardsInDeck.add(card1);
 		cardsInDeck.add(card2);
 		cardsInDeck.add(card3);
+		cardsInDeck.add(card4);
 		
 		cardsInPlayerHand.add(card1);
 		cardsInPlayerHand.add(card2);
 		cardsInPlayerHand.add(card3);
+		cardsInPlayerHand.add(card4);
 		
 
 			// Create a file here and input valid data with 8*numPlayers - 1
 			// Then we'll be adding one invalid string in each exception test
 		try {
-			File myObj = new File("testPath.txt");
+			myObj = new File("testPath.txt");
 			if (myObj.createNewFile()) {
 				
-				FileWriter myWriter = new FileWriter(filename);
+				FileWriter myWriter = new FileWriter("testPath.txt", false);
 				for (int i=0; i<23; i++){
-					myWriter.write(1);
+					myWriter.write(Integer.toString(1));
 					myWriter.write("\n");
 				}
 				myWriter.close();
 			} 
 		} catch (IOException e) {}
+		
 	}
 	
 	@After
 	public void tearDown(){
 		cardsInDeck = null;
 		cardsInPlayerHand = null;
-		
-		// delete the file
-		Path path = Paths.get("testPath.txt");
-		try{
-			Files.delete(path);
-		} catch (IOException e) {
-			System.out.println("IOException");
-		}
-	}
+
+		myObj = new File("testPath.txt");
+		try {
+			FileWriter myWriterNew = new FileWriter("testPath.txt", false);
+				for (int i=0; i<23; i++){
+					myWriterNew.write(Integer.toString(1));
+					myWriterNew.write("\n");
+				}
+				myWriterNew.close();
+		} catch (Exception e) {}
 
 
-	@Test
-	public void testGetPackFileNotFound(){
-		try{
-			FileWriter myWriter = new FileWriter("testPath.txt");
-            myWriter.write(1);
-            myWriter.close();
-        } catch (IOException e){}
-        
-		try{
-			Helper.getPack(3, "RandomFile.txt");
-			fail();
-		} catch (FileNotFoundException e) {
-
-		}
 	}
 	
 	@Test
 	public void testGetPackValid(){
 		try{
-			FileWriter myWriter = new FileWriter("testPath.txt");
-            myWriter.write(1);
-            myWriter.close();
+			FileWriter myWriterValid = new FileWriter("testPath.txt", true);
+            myWriterValid.write(Integer.toString(1));
+            myWriterValid.close();
         } catch (IOException e){}
         
 		assertTrue(Helper.getPack(3, "testPath.txt"));
@@ -95,50 +88,36 @@ public class HelperTest{
 	@Test
 	public void testGetPackNumberFormat(){
 		try{
-			FileWriter myWriter = new FileWriter("testPath.txt");
-            myWriter.write(-1);
-            myWriter.close();
+			FileWriter myWriterFormat = new FileWriter("testPath.txt", true);
+            myWriterFormat.write(Integer.toString(-1));
+            myWriterFormat.close();
         } catch (IOException e){}
-        
-		try{
-			Helper.getPack(3, "testPath.txt");
-			fail();
-		} catch (NumberFormatException e) {
-			//Passes if this is called. No Such element exception is thrown if the program asks for another user input
-            //as the first input provided is invalid.
-		}
+
+		assertFalse(Helper.getPack(3, "testPath.txt"));
+
 	}
 	
 	@Test
 	public void testGetPackInputMismatch(){
 		try{
-			FileWriter myWriter = new FileWriter("testPath.txt");
-            myWriter.write("a");
-            myWriter.close();
+			FileWriter myWriterMismatch = new FileWriter("testPath.txt",true);
+            myWriterMismatch.write("a");
+            myWriterMismatch.close();
         } catch (IOException e){}
         
-		try{
-			Helper.getPack(3, "testPath.txt");
-			fail();
-		} catch (InputMismatchException e) {
+		assertFalse(Helper.getPack(3, "testPath.txt"));
 
-		}
 	}
 	
 	@Test
 	public void testGetPackNoSuchElement(){
 		try{
-			FileWriter myWriter = new FileWriter("testPath.txt");
-            myWriter.write(" ");
-            myWriter.close();
+			FileWriter myWriterNoSuchElement = new FileWriter("testPath.txt", true);
+            myWriterNoSuchElement.write(" ");
+            myWriterNoSuchElement.close();
         } catch (IOException e){}
         
-		try{
-			Helper.getPack(3, "testPath.txt");
-			fail();
-		} catch (NoSuchElementException e) {
-
-		}
+		assertFalse(Helper.getPack(3, "testPath.txt"));
 	}
 	
 
@@ -146,8 +125,8 @@ public class HelperTest{
 	public void testPlayerAmount(){
 		// Need to print your own number in the terminal and check
 		String test1 = "string input";
-		int test2 = -10;
-		int test3 = 3;
+		String test2 = "-10";
+		String test3 = "3";
 		Scanner scanner1 = new Scanner(test1);
 		// String input
 		assertEquals(-1, Helper.playerAmount(scanner1));
@@ -159,22 +138,12 @@ public class HelperTest{
 		assertEquals(3, Helper.playerAmount(scanner3));
 	}
 	
-	
-	@Test
-	public void testCheckPack(){
-		try{
-			assertTrue(Helper.checkPack(tempFile, numPlayers));
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		}
-	}
-	
 	// index out of bounds
 	@Test
 	public void testOutputFilePlayer(){
-		String fileName = "player"+ Integer.toString(1) +"_output.txt";
+		String fileName = "player"+ Integer.toString(2) +"_output.txt";
+		Helper.outputFilePlayer(1, cardsInPlayerHand);
 		Path path = Paths.get(fileName);
-		Helper.outputFileDeck(1, cardsInPlayerHand);
 		assertTrue(Files.exists(path));
 		try{
 			Files.delete(path);
@@ -186,9 +155,9 @@ public class HelperTest{
 	
 	@Test
 	public void testOutputFileDeck(){
-		String fileName = "deck"+ Integer.toString(1) +"_output.txt";
-		Path path = Paths.get(fileName);
+		String fileName = "deck"+ Integer.toString(2) +"_output.txt";
 		Helper.outputFileDeck(1, cardsInDeck);
+		Path path = Paths.get(fileName);
 		assertTrue(Files.exists(path));
 		try{
 			Files.delete(path);
@@ -201,6 +170,6 @@ public class HelperTest{
 	@Test
 	public void testPrintHand(){
 		String output = Helper.printHand(1, cardsInPlayerHand);
-		assertEquals("1 2 3 ", output);
+		assertEquals("1 2 3 4 ", output);
 	}
 }

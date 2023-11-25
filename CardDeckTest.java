@@ -42,11 +42,7 @@ public class CardDeckTest{
 		for (int i = 0; i <4; i++){
 			newCards.add(new Card(i));
 		}
-		// what is this testing just doesnt work, i assume i+1 was meant to be cardInd
-		// with cardind+1 expects 6 but was 5
-		// with cardind only expects 7 but was 6
-		// expects 7 
-		// i moved assert out of loop
+		
 		for (int cardInd = 0; cardInd < newCards.size(); cardInd++){
 			cardDeck1.addCard(newCards.get(cardInd));
 			//assertEquals(cards.size()+(cardInd), cardDeck1.getDeck().size());
