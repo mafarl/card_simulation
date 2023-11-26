@@ -101,18 +101,36 @@ public class Helper{
 	} */
 	
 	
-	public static void outputFilePlayer(int playerIndex, ArrayList<Card> cardsInHand){
+	public static void finalOutputFilePlayer(int playerIndex, ArrayList<Card> cardsInHand){
 		try {
 			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
 			File myObj = new File(filename);
 			if (myObj.createNewFile()) {
 				
-				FileWriter myWriter = new FileWriter(filename);
+				FileWriter myWriter = new FileWriter(filename, true);
 				for (int i=0; i<3; i++){
 					myWriter.write(Integer.toString(cardsInHand.get(i).getValueOf()));
-					myWriter.write("\n");
+					myWriter.write(" ");
 				}
 				myWriter.write(Integer.toString(cardsInHand.get(3).getValueOf()));
+				myWriter.close();
+			}
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void addingToOutputFile(int playerIndex, String text){
+		try{
+			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
+			File myObj = new File(filename);
+			if (myObj.exists()) {
+				
+				FileWriter myWriter = new FileWriter(filename, true);
+				myWriter.write(text);
+				myWriter.write("\n");
 				myWriter.close();
 			}
 		} catch (IOException e) {

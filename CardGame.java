@@ -50,15 +50,18 @@ public class CardGame{
 
 					// removing card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
-					System.out.println("Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1));
+					String text = "Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1);
+					Helper.addingToOutputFile(playerIndex, text);
 					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
 					// takes card from top of deck to left of player, adds to hand
 					Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
-					System.out.println("Player " + Integer.toString(playerIndex+1) + " draws a " + Integer.toString(topCard.getValueOf()) + " from deck " + Integer.toString(playerIndex + 1));
+					String text2 = "Player " + Integer.toString(playerIndex+1) + " draws a " + Integer.toString(topCard.getValueOf()) + " from deck " + Integer.toString(playerIndex + 1);
+					Helper.addingToOutputFile(playerIndex, text2);
 					player.addCard(topCard);
 					
-					System.out.println("Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(playerIndex, player.getHand()));
+					String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(playerIndex, player.getHand());
+					Helper.addingToOutputFile(playerIndex, text3);
 					
 				}
 			}
@@ -80,7 +83,7 @@ public class CardGame{
 		System.out.println("Player " + Integer.toString(playerIndex + 1) + " final hand: " + Helper.printHand(playerIndex, player.getHand()));
 		
 		for (int i = 0; i < allPlayers.size(); i++ ){
-			Helper.outputFilePlayer(i, allPlayers.get(i).getHand());
+			//Helper.finalOutputFilePlayer(i, allPlayers.get(i).getHand());
 			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
 			if (i != playerIndex){
 				allPlayersThreads.get(i).interrupt();
@@ -151,7 +154,8 @@ public class CardGame{
 		
 		// Print out initial hands of players
 		for (int i = 0; i < allPlayers.size(); i++){
-			System.out.println("Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(i, allPlayers.get(i).getHand()));
+			String text4 = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(i, allPlayers.get(i).getHand());
+			Helper.addingToOutputFile(i, text4);
 		}
 		
 		// Give cards to decks
