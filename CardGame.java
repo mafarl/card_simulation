@@ -40,6 +40,7 @@ public class CardGame{
 							gameWon(player, playerIndex);
 						}
 					}
+					
 					try {
 						Thread.sleep(100);
 					}
@@ -78,16 +79,16 @@ public class CardGame{
 	
 	// What each the thread that won prints out at the end
 	public static synchronized void gameWon(Player player, int playerIndex){
+		try {
+			Thread.sleep(100);
+		}
+		catch (InterruptedException e){}
 		String textwins = "Player " + Integer.toString(playerIndex + 1) + " wins";
 		System.out.println(textwins);
 		
 		for (int i = 0; i < allPlayers.size(); i++ ){
 			String textexits = "Player " + Integer.toString(i + 1) + " exits";
 			String textfinal = "Player " + Integer.toString(i + 1) + " final hand: " + Helper.printHand(allPlayers.get(i).getHand());
-			// Interrupt other threads
-			if (i != playerIndex){
-				allPlayersThreads.get(i).interrupt();
-			}
 			// Output deck files
 			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
 			if (i == playerIndex){

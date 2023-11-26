@@ -110,9 +110,7 @@ public class Helper{
 	public static void addingToOutputFile(int playerIndex, String text){
 		try{
 			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
-			File myObj = new File(filename);
 			
-				
 				FileWriter myWriter = new FileWriter(filename, true);
 				myWriter.write("\n");
 				myWriter.write(text);
@@ -142,7 +140,7 @@ public class Helper{
 	public static String printHand(ArrayList<Card> cardsInHand){
 		String toOutput = "";
 		
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < cardsInHand.size(); i++){
 			toOutput += Integer.toString(cardsInHand.get(i).getValueOf()) + " ";
 		}
 		

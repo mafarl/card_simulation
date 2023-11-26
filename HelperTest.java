@@ -142,7 +142,7 @@ public class HelperTest{
 	@Test
 	public void testAddingOutputFilePlayer(){
 		String fileName = "player"+ Integer.toString(2) +"_output.txt";
-		Helper.addingToOutputFile(1, cardsInPlayerHand);
+		Helper.addingToOutputFile(1, "test");
 		Path path = Paths.get(fileName);
 		assertTrue(Files.exists(path));
 		try{
@@ -155,7 +155,7 @@ public class HelperTest{
 	@Test
 	public void testInitialOutputFilePlayer(){
 		String fileName = "player"+ Integer.toString(2) +"_output.txt";
-		Helper.initialOutputFile(1, cardsInPlayerHand);
+		Helper.initialOutputFile(1, "test");
 		Path path = Paths.get(fileName);
 		assertTrue(Files.exists(path));
 		try{
