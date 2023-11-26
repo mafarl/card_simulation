@@ -60,7 +60,7 @@ public class CardGame{
 					Helper.addingToOutputFile(playerIndex, text2);
 					player.addCard(topCard);
 					
-					String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(playerIndex, player.getHand());
+					String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(player.getHand());
 					Helper.addingToOutputFile(playerIndex, text3);
 					
 				}
@@ -78,16 +78,26 @@ public class CardGame{
 	
 	// What each the thread that won prints out at the end
 	public static synchronized void gameWon(Player player, int playerIndex){
-		System.out.println("Player " + Integer.toString(playerIndex + 1) + " wins");
-		System.out.println("Player " + Integer.toString(playerIndex + 1) + " exits");
-		System.out.println("Player " + Integer.toString(playerIndex + 1) + " final hand: " + Helper.printHand(playerIndex, player.getHand()));
+		String textwins = "Player " + Integer.toString(playerIndex + 1) + " wins";
+		System.out.println(textwins);
 		
 		for (int i = 0; i < allPlayers.size(); i++ ){
-			//Helper.finalOutputFilePlayer(i, allPlayers.get(i).getHand());
-			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
+			String textexits = "Player " + Integer.toString(i + 1) + " exits";
+			String textfinal = "Player " + Integer.toString(i + 1) + " final hand: " + Helper.printHand(allPlayers.get(i).getHand());
+			// Interrupt other threads
 			if (i != playerIndex){
 				allPlayersThreads.get(i).interrupt();
 			}
+			// Output deck files
+			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
+			if (i == playerIndex){
+				Helper.addingToOutputFile(i, textwins);
+			} else {
+				String textwhowon = "Player " + Integer.toString(i + 1) + " has been informed player " + Integer.toString(playerIndex + 1) + " has won";
+				Helper.addingToOutputFile(i, textwhowon);
+			}
+			Helper.addingToOutputFile(i, textexits);
+			Helper.addingToOutputFile(i, textfinal);
 		}
 		
 		Thread.currentThread().interrupt();
@@ -154,8 +164,8 @@ public class CardGame{
 		
 		// Print out initial hands of players
 		for (int i = 0; i < allPlayers.size(); i++){
-			String text4 = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(i, allPlayers.get(i).getHand());
-			Helper.addingToOutputFile(i, text4);
+			String text4 = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(allPlayers.get(i).getHand());
+			Helper.initialOutputFile(i, text4);
 		}
 		
 		// Give cards to decks
@@ -164,6 +174,9 @@ public class CardGame{
 			allCardDecks.get(counter2%numPlayers).addCard(initialPack.get(counter2));
 			counter2++;
 		}
+		
+		// delete the player files
+		
 
 
 		for (int i = 0; i < numPlayers; i++){ 

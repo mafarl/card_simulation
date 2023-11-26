@@ -140,9 +140,9 @@ public class HelperTest{
 	
 	// index out of bounds
 	@Test
-	public void testOutputFilePlayer(){
+	public void testAddingOutputFilePlayer(){
 		String fileName = "player"+ Integer.toString(2) +"_output.txt";
-		Helper.outputFilePlayer(1, cardsInPlayerHand);
+		Helper.addingToOutputFile(1, cardsInPlayerHand);
 		Path path = Paths.get(fileName);
 		assertTrue(Files.exists(path));
 		try{
@@ -151,7 +151,19 @@ public class HelperTest{
 			System.out.println("IOException");
 		}
 	}
-
+	
+	@Test
+	public void testInitialOutputFilePlayer(){
+		String fileName = "player"+ Integer.toString(2) +"_output.txt";
+		Helper.initialOutputFile(1, cardsInPlayerHand);
+		Path path = Paths.get(fileName);
+		assertTrue(Files.exists(path));
+		try{
+			Files.delete(path);
+		} catch (IOException e) {
+			System.out.println("IOException");
+		}
+	}
 	
 	@Test
 	public void testOutputFileDeck(){
@@ -169,7 +181,7 @@ public class HelperTest{
 	// index out of bounds
 	@Test
 	public void testPrintHand(){
-		String output = Helper.printHand(1, cardsInPlayerHand);
+		String output = Helper.printHand(cardsInPlayerHand);
 		assertEquals("1 2 3 4 ", output);
 	}
 }

@@ -74,38 +74,13 @@ public class Helper{
 		}
 		return(false);
 	}
-
-/* public static boolean checkPack(File packFile, int n) throws FileNotFoundException, NoSuchElementException {
-		
-			  Scanner myReader = new Scanner(packFile);
-			  int line_counter = 0;
-			  while (myReader.hasNextLine()) {
-
-					int number = myReader.nextInt();
-					line_counter ++;
-
-					// Verify if each row is non negative int
-					if (number < 1){
-						throw new NumberFormatException();
-					}
-			  }
-
-			  // Verify no rows
-			  if (line_counter != 8*n){
-			  	  System.out.println("Incorrect number of cards in pack");
-			  	  return false;
-			  }
-			  
-			  myReader.close();
-			  return true;
-	} */
 	
 	
-	public static void finalOutputFilePlayer(int playerIndex, ArrayList<Card> cardsInHand){
+	/*public static void finalOutputFilePlayer(int playerIndex, ArrayList<Card> cardsInHand){
 		try {
 			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
 			File myObj = new File(filename);
-			if (myObj.createNewFile()) {
+		
 				
 				FileWriter myWriter = new FileWriter(filename, true);
 				for (int i=0; i<3; i++){
@@ -114,11 +89,21 @@ public class Helper{
 				}
 				myWriter.write(Integer.toString(cardsInHand.get(3).getValueOf()));
 				myWriter.close();
-			}
+			
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
+	}*/
+	
+	public static void initialOutputFile(int playerIndex, String text){
+		String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
+		File myObj = new File(filename);
+		try {
+			FileWriter myWriter = new FileWriter(filename, false);
+			myWriter.write(text);
+			myWriter.close();
+		} catch (Exception e) {}
 	}
 	
 	
@@ -126,13 +111,13 @@ public class Helper{
 		try{
 			String filename = "player"+ Integer.toString(playerIndex +1) +"_output.txt";
 			File myObj = new File(filename);
-			if (myObj.exists()) {
+			
 				
 				FileWriter myWriter = new FileWriter(filename, true);
-				myWriter.write(text);
 				myWriter.write("\n");
+				myWriter.write(text);
 				myWriter.close();
-			}
+			
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
@@ -144,23 +129,17 @@ public class Helper{
 		try {
 			String filename = "deck"+ Integer.toString(deckIndex +1) +"_output.txt";
 			File myObj = new File(filename);
-			if (myObj.createNewFile()) { 
-				
-				FileWriter myWriter = new FileWriter(filename);
-				for (int i=0; i<3; i++){
-					myWriter.write(Integer.toString(cardsInDeck.get(i).getValueOf()));
-					myWriter.write("\n");
-				}
-				myWriter.write(Integer.toString(cardsInDeck.get(3).getValueOf()));
-				myWriter.close();
-			}
+			FileWriter myWriter = new FileWriter(filename);
+			String text = "Deck " + Integer.toString(deckIndex +1) + " contents: " + printHand(cardsInDeck);	
+			myWriter.write(text);
+			myWriter.close();
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
 	}
 	
-	public static String printHand(int playerIndex, ArrayList<Card> cardsInHand){
+	public static String printHand(ArrayList<Card> cardsInHand){
 		String toOutput = "";
 		
 		for (int i = 0; i < 4; i++){
