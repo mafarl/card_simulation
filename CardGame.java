@@ -20,10 +20,12 @@ public class CardGame{
 
 		private Player player;
 		private int playerIndex;
-
+		
+		// Thread run function
 		@Override
 		public void run(){
 			if (player.checkHand()) {
+				// Only one player can call gameWon due to counter variable
 				if (counter.get() == false){
 					counter = new AtomicBoolean(true);
 					won = true;
@@ -32,15 +34,15 @@ public class CardGame{
 			}
 			else{
 				while (!won){
-					
 					if (player.checkHand()){
+						// Only one player can call gameWon due to counter variable
 						if (counter.get() == false){
 							counter = new AtomicBoolean(true);
 							won = true;
 							gameWon(player, playerIndex);
 						}
 					}
-					
+					// Wait for 100 milliseconds before every turn to avoid race conditions
 					try {
 						Thread.sleep(100);
 					}
@@ -48,48 +50,58 @@ public class CardGame{
 						break;
 					}
 					
-
-					// removing card from player hand, adds it to deck to right of player
+					// Removes card from player hand, adds it to deck to right of player
 					Card removedCard = player.removeCard();
 					String text = "Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1);
 					Helper.addingToOutputFile(playerIndex, text);
 					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
-					// takes card from top of deck to left of player, adds to hand
+					// Removes card from top of deck to left of player, adds to hand
 					Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
 					String text2 = "Player " + Integer.toString(playerIndex+1) + " draws a " + Integer.toString(topCard.getValueOf()) + " from deck " + Integer.toString(playerIndex + 1);
 					Helper.addingToOutputFile(playerIndex, text2);
 					player.addCard(topCard);
 					
+					// Adds current hand to player output file
 					String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(player.getHand());
 					Helper.addingToOutputFile(playerIndex, text3);
-					
 				}
 			}
 		}
 
 
 		// Constructor
+
+		/**
+		 * Creates a player thread
+		 * @param player object to create thread for
+		 * @param playerIndex index of player
+		 */
 		public PlayerThread(Player player, int playerIndex){
 			this.player = player;
 			this.playerIndex = playerIndex;
 		}
 	}
 	
-	
-	// What each the thread that won prints out at the end
+	/**
+	 * Ends game, creates all files for all players and decks
+	 * @param player player that won
+	 * @param playerIndex index of player
+	 */
 	public static synchronized void gameWon(Player player, int playerIndex){
+		// Wait 100 milliseconds to make sure all players have finished their turn
 		try {
 			Thread.sleep(100);
 		}
 		catch (InterruptedException e){}
+
 		String textwins = "Player " + Integer.toString(playerIndex + 1) + " wins";
 		System.out.println(textwins);
 		
+		// Creates all output files for all players and decks
 		for (int i = 0; i < allPlayers.size(); i++ ){
 			String textexits = "Player " + Integer.toString(i + 1) + " exits";
 			String textfinal = "Player " + Integer.toString(i + 1) + " final hand: " + Helper.printHand(allPlayers.get(i).getHand());
-			// Output deck files
 			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
 			if (i == playerIndex){
 				Helper.addingToOutputFile(i, textwins);
@@ -100,13 +112,13 @@ public class CardGame{
 			Helper.addingToOutputFile(i, textexits);
 			Helper.addingToOutputFile(i, textfinal);
 		}
-		
+		// Ends game
 		Thread.currentThread().interrupt();
 	}
 	
 
 	public static void main(String[] args) {
-		
+		// Gets number of players
 		int numPlayers;
 		while (true){
                 Scanner myObj = new Scanner(System.in);
@@ -117,6 +129,7 @@ public class CardGame{
 				}
 			}
 		
+		// Gets file name and validates it with getPack function
 		String fileName;
 		while (true){
 			Scanner myObj2 = new Scanner(System.in);
@@ -129,9 +142,7 @@ public class CardGame{
 		
 		File packFile = new File(fileName);
 
-
-
-		// Read cards into an array
+		// Read cards into an array from packFile
 		ArrayList<Card> initialPack =  new ArrayList<Card>();
 		try {
 			Scanner myReader = new Scanner(packFile);
@@ -144,9 +155,7 @@ public class CardGame{
 			  System.out.println("Incorrect file name/path");
 		}
 
-		
-		// Do separate functions for that
-		// making all the players and decks
+		// Creates all players, decks and playerThreads
         for (int i = 0; i < numPlayers; i++){
 			Player play = new Player(i, new ArrayList<Card>());
 			allPlayers.add(play);
@@ -156,35 +165,30 @@ public class CardGame{
 			allPlayersThreads.add(playerThread);
 		}
 
-		// Give cards to players
+		// Distributes cards to players in round robin order
 		int counter = 0;
 		while(counter < 4*numPlayers){
 			allPlayers.get(counter%numPlayers).addCard(initialPack.get(counter));
 			counter++;
 		}
 		
-		// Print out initial hands of players
+		// Writes initial hand of players to file
 		for (int i = 0; i < allPlayers.size(); i++){
 			String text4 = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(allPlayers.get(i).getHand());
 			Helper.initialOutputFile(i, text4);
 		}
 		
-		// Give cards to decks
+		// Distributes cards to decks in round robin order
 		int counter2 = 4*numPlayers;
 		while(counter2 < 8*numPlayers){
 			allCardDecks.get(counter2%numPlayers).addCard(initialPack.get(counter2));
 			counter2++;
 		}
 		
-		// delete the player files
-		
-
-
+		// Starts all threads
 		for (int i = 0; i < numPlayers; i++){ 
 			allPlayersThreads.get(i).start();
 		}
-
 	}
-
 }
 

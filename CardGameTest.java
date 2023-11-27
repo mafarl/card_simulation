@@ -33,7 +33,6 @@ public class CardGameTest {
 
         assertEquals(initialThreadCount+2, finalThreadCount);
 
-
         }
     }
 

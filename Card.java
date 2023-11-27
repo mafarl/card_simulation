@@ -9,7 +9,7 @@
 public class Card{
 	
 	// Attributes
-	private int cardValue;
+	private int cardValue; // Represents number value of card
 	
 	// Methods
 
