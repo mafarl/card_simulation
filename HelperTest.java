@@ -1,17 +1,12 @@
-import org.junit.*;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import java.io.*;
 import java.util.*;
 import java.nio.file.*;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 
 
 public class HelperTest{
@@ -20,12 +15,13 @@ public class HelperTest{
 	private ArrayList<Card> cardsInPlayerHand = new ArrayList<Card>();
 	File myObj;
 	
-	// Set up and get the pack
+	// Set up the cards
 	Card card1 = new Card(1);
 	Card card2 = new Card(2);
 	Card card3 = new Card(3);
 	Card card4 = new Card(4);
 
+	// Adds cards to deck and hand, creates a test pack file for each method
 	@Before
 	public void setUp(){
 		cardsInDeck.add(card1);
@@ -39,8 +35,8 @@ public class HelperTest{
 		cardsInPlayerHand.add(card4);
 		
 
-			// Create a file here and input valid data with 8*numPlayers - 1
-			// Then we'll be adding one invalid string in each exception test
+		// Creates a test pack file with input valid data with 8*numPlayers - 1
+		// Then we'll be adding one invalid character in each exception test
 		try {
 			myObj = new File("testPath.txt");
 			if (myObj.createNewFile()) {
@@ -56,6 +52,7 @@ public class HelperTest{
 		
 	}
 	
+	// Resets deck and hand, and resets the test pack file
 	@After
 	public void tearDown(){
 		cardsInDeck = null;
@@ -74,6 +71,7 @@ public class HelperTest{
 
 	}
 	
+	// Tests a valid pack file returns as true
 	@Test
 	public void testGetPackValid(){
 		try{
@@ -85,6 +83,7 @@ public class HelperTest{
 		assertTrue(Helper.getPack(3, "testPath.txt"));
 	}
 	
+	// Tests a negative integer in the pack file causes an exception, returning false
 	@Test
 	public void testGetPackNumberFormat(){
 		try{
@@ -97,6 +96,7 @@ public class HelperTest{
 
 	}
 	
+	// Tests a string in the pack file causes an exception, returning false
 	@Test
 	public void testGetPackInputMismatch(){
 		try{
@@ -109,6 +109,7 @@ public class HelperTest{
 
 	}
 	
+	// Tests a white string in the pack file causes an exception, returning false
 	@Test
 	public void testGetPackNoSuchElement(){
 		try{
@@ -120,10 +121,9 @@ public class HelperTest{
 		assertFalse(Helper.getPack(3, "testPath.txt"));
 	}
 	
-
+	// Tests that player amount returns -1 for invalid input and the given number for correct input
 	@Test
 	public void testPlayerAmount(){
-		// Need to print your own number in the terminal and check
 		String test1 = "string input";
 		String test2 = "-10";
 		String test3 = "3";
@@ -138,7 +138,7 @@ public class HelperTest{
 		assertEquals(3, Helper.playerAmount(scanner3));
 	}
 	
-	// index out of bounds
+	// Tests that file is created correctly
 	@Test
 	public void testAddingOutputFilePlayer(){
 		String fileName = "player"+ Integer.toString(2) +"_output.txt";
@@ -152,6 +152,7 @@ public class HelperTest{
 		}
 	}
 	
+	// Tests that file is created correctly
 	@Test
 	public void testInitialOutputFilePlayer(){
 		String fileName = "player"+ Integer.toString(2) +"_output.txt";
@@ -165,6 +166,7 @@ public class HelperTest{
 		}
 	}
 	
+	// Tests that file is created correctly
 	@Test
 	public void testOutputFileDeck(){
 		String fileName = "deck"+ Integer.toString(2) +"_output.txt";
@@ -178,7 +180,7 @@ public class HelperTest{
 		}
 	}
 
-	// index out of bounds
+	// Tests that string is formatted correctly
 	@Test
 	public void testPrintHand(){
 		String output = Helper.printHand(cardsInPlayerHand);

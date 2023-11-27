@@ -20,7 +20,7 @@ public class CardGame{
 
 		private Player player;
 		private int playerIndex;
-		
+
 		// Thread run function
 		@Override
 		public void run(){
@@ -42,7 +42,8 @@ public class CardGame{
 							gameWon(player, playerIndex);
 						}
 					}
-					// Wait for 100 milliseconds before every turn to avoid race conditions
+
+					// Wait for 100 milliseconds before every turn to avoid one thread taking cards too fast
 					try {
 						Thread.sleep(100);
 					}
@@ -69,7 +70,6 @@ public class CardGame{
 			}
 		}
 
-
 		// Constructor
 
 		/**
@@ -95,22 +95,22 @@ public class CardGame{
 		}
 		catch (InterruptedException e){}
 
-		String textwins = "Player " + Integer.toString(playerIndex + 1) + " wins";
-		System.out.println(textwins);
+		String textWins = "Player " + Integer.toString(playerIndex + 1) + " wins";
+		System.out.println(textWins);
 		
 		// Creates all output files for all players and decks
 		for (int i = 0; i < allPlayers.size(); i++ ){
-			String textexits = "Player " + Integer.toString(i + 1) + " exits";
-			String textfinal = "Player " + Integer.toString(i + 1) + " final hand: " + Helper.printHand(allPlayers.get(i).getHand());
+			String textExits = "Player " + Integer.toString(i + 1) + " exits";
+			String textFinal = "Player " + Integer.toString(i + 1) + " final hand: " + Helper.printHand(allPlayers.get(i).getHand());
 			Helper.outputFileDeck(i, allCardDecks.get(i).getDeck());
 			if (i == playerIndex){
-				Helper.addingToOutputFile(i, textwins);
+				Helper.addingToOutputFile(i, textWins);
 			} else {
 				String textwhowon = "Player " + Integer.toString(i + 1) + " has been informed player " + Integer.toString(playerIndex + 1) + " has won";
 				Helper.addingToOutputFile(i, textwhowon);
 			}
-			Helper.addingToOutputFile(i, textexits);
-			Helper.addingToOutputFile(i, textfinal);
+			Helper.addingToOutputFile(i, textExits);
+			Helper.addingToOutputFile(i, textFinal);
 		}
 		// Ends game
 		Thread.currentThread().interrupt();
@@ -174,8 +174,8 @@ public class CardGame{
 		
 		// Writes initial hand of players to file
 		for (int i = 0; i < allPlayers.size(); i++){
-			String text4 = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(allPlayers.get(i).getHand());
-			Helper.initialOutputFile(i, text4);
+			String textInitial = "Player " + Integer.toString(i + 1) + " initial hand " + Helper.printHand(allPlayers.get(i).getHand());
+			Helper.initialOutputFile(i, textInitial);
 		}
 		
 		// Distributes cards to decks in round robin order

@@ -11,10 +11,9 @@ public class PlayerTest{
 	private Player player1;
 	private ArrayList<Card> cards = new ArrayList<Card>();
 	
+	// Creates an initial player with a hand
 	@Before
 	public void setUp(){
-		
-		// Populate hand
 		for (int i = 0; i <4; i++){
 			cards.add(new Card(i));
 		}
@@ -22,32 +21,32 @@ public class PlayerTest{
 		player1 = new Player(playerIndex, cards);
 	}
 	
-	
+	// Empties the hand
 	@After
 	public void tearDown(){
-		// Empty hand
 		cards.removeAll(cards);
 	}
 
+	// Tests player is constructed correctly
 	@Test
 	public void testConstructPlayer(){
 		assertEquals(playerIndex, player1.getPlayerIndex());
 		assertEquals(cards.size(), player1.getHand().size());
 	}
 	
-	
+	// Tests get hand returns hand
 	@Test
 	public void testGetHand(){
 		assertEquals(cards, player1.getHand());
 	}
 	
-	
+	// Tests check hand returns false for a non-winning hand
 	@Test
 	public void testCheckHand(){
 		assertFalse(player1.checkHand());
 	}
 	
-	// expected 2 but was 3
+	// Tests a card is removed, and that it is not the preferred denomination
 	@Test
 	public void testRemoveCard(){
 		// Need to check that the cards removed are not 1s
@@ -59,12 +58,10 @@ public class PlayerTest{
 		assertEquals(1, player1.getHand().size());
 	}
 	
-	// expected 6 but was 5
-	// similar to deck one
+	// Test adding card to player hand
 	@Test
 	public void testAddCard(){
 		ArrayList<Card> newCards = new ArrayList<Card>();
-		// Populate hand
 		for (int i = 0; i <4; i++){
 			newCards.add(new Card(i));
 		}

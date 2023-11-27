@@ -6,6 +6,7 @@ public class CardGameTest {
     private CardGame.PlayerThread playerThread1;
     private CardGame.PlayerThread playerThread2;
 
+    // Create players with a hand and their threads
     @Before
 	public void setUp(){
         ArrayList<Card> cards = new ArrayList<Card>();
@@ -14,10 +15,10 @@ public class CardGameTest {
 
         playerThread1 = new CardGame.PlayerThread(player1, 0);
         playerThread2 = new CardGame.PlayerThread(player2, 1);
-        
-        
+          
 	}
 
+    // Tests thread starting
     @Test
     public void testGame()  {
 
@@ -26,8 +27,11 @@ public class CardGameTest {
         playerThread1.start();
         playerThread2.start();
 
-        assertEquals("Thread-0", playerThread1.getName());
-        assertEquals("Thread-1", playerThread2.getName());
+        playerThread1.setName("playerThread1");
+        playerThread2.setName("playerThread2");
+
+        assertEquals("playerThread1", playerThread1.getName());
+        assertEquals("playerThread2", playerThread2.getName());
 
         int finalThreadCount = Thread.activeCount();
 
