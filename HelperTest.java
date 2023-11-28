@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class HelperTest{
 	
 	private ArrayList<Card> cardsInDeck = new ArrayList<Card>();
@@ -33,7 +32,6 @@ public class HelperTest{
 		cardsInPlayerHand.add(card2);
 		cardsInPlayerHand.add(card3);
 		cardsInPlayerHand.add(card4);
-		
 
 		// Creates a test pack file with input valid data with 8*numPlayers - 1
 		// Then we'll be adding one invalid character in each exception test
@@ -49,7 +47,6 @@ public class HelperTest{
 				myWriter.close();
 			} 
 		} catch (IOException e) {}
-		
 	}
 	
 	// Resets deck and hand, and resets the test pack file
@@ -57,8 +54,8 @@ public class HelperTest{
 	public void tearDown(){
 		cardsInDeck = null;
 		cardsInPlayerHand = null;
-
 		myObj = new File("testPath.txt");
+
 		try {
 			FileWriter myWriterNew = new FileWriter("testPath.txt", false);
 				for (int i=0; i<23; i++){
@@ -67,8 +64,6 @@ public class HelperTest{
 				}
 				myWriterNew.close();
 		} catch (Exception e) {}
-
-
 	}
 	
 	// Tests a valid pack file returns as true

@@ -2,7 +2,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class CardTest{
 
 	private Card card;
@@ -18,5 +17,4 @@ public class CardTest{
 	public void testGetValueOf(){
 		assertEquals(1, card.getValueOf());
 	}
-	
 }

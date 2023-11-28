@@ -114,8 +114,6 @@ public class CardGame{
 			Helper.addingToOutputFile(i, textExits);
 			Helper.addingToOutputFile(i, textFinal);
 		}
-		// Ends game
-		//Thread.currentThread().interrupt();
 	}
 	
 

@@ -1,6 +1,5 @@
 import org.junit.*;
 import static org.junit.Assert.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -42,7 +41,6 @@ public class CardGameTest {
         playerThread2 = new CardGame.PlayerThread(player2, 1);
         playerThread1.setName("playerThread1");
         playerThread2.setName("playerThread2");
-          
 	}
 
     // Tests thread starting
@@ -53,17 +51,13 @@ public class CardGameTest {
         playerThread1.start();
         playerThread2.start();
 
-
-
         assertEquals("playerThread1", playerThread1.getName());
         assertEquals("playerThread2", playerThread2.getName());
 
         int finalThreadCount = Thread.activeCount();
 
         assertEquals(initialThreadCount+2, finalThreadCount);
-
         }
-
 
     // No need to test threads here since was tested in the function above
     @Test
@@ -107,7 +101,6 @@ public class CardGameTest {
             System.setOut(originalOut);
         }
     }
-
 }
 
    
