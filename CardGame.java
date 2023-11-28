@@ -29,7 +29,7 @@ public class CardGame{
 				if (counter.get() == false){
 					counter = new AtomicBoolean(true);
 					won = true;
-					gameWon(player, playerIndex);
+					gameWon(allPlayers, allCardDecks, player, playerIndex);
 				}
 			}
 			else{
@@ -39,33 +39,35 @@ public class CardGame{
 						if (counter.get() == false){
 							counter = new AtomicBoolean(true);
 							won = true;
-							gameWon(player, playerIndex);
+							gameWon(allPlayers, allCardDecks, player, playerIndex);
 						}
 					}
+					else{
 
-					// Wait for 100 milliseconds before every turn to avoid one thread taking cards too fast
-					try {
-						Thread.sleep(100);
-					}
-					catch (InterruptedException e){
-						break;
-					}
-					
-					// Removes card from player hand, adds it to deck to right of player
-					Card removedCard = player.removeCard();
-					String text = "Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1);
-					Helper.addingToOutputFile(playerIndex, text);
-					allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
+						// Wait for 100 milliseconds before every turn to avoid one thread taking cards too fast
+						try {
+							Thread.sleep(100);
+						}
+						catch (InterruptedException e){
+							break;
+						}
+						
+						// Removes card from player hand, adds it to deck to right of player
+						Card removedCard = player.removeCard();
+						String text = "Player " + Integer.toString(playerIndex + 1) + " discards a " + Integer.toString(removedCard.getValueOf()) + " to deck " + Integer.toString((playerIndex+1)%(allPlayers.size())+1);
+						Helper.addingToOutputFile(playerIndex, text);
+						allCardDecks.get((playerIndex+1)%(allPlayers.size())).addCard(removedCard);
 
-					// Removes card from top of deck to left of player, adds to hand
-					Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
-					String text2 = "Player " + Integer.toString(playerIndex+1) + " draws a " + Integer.toString(topCard.getValueOf()) + " from deck " + Integer.toString(playerIndex + 1);
-					Helper.addingToOutputFile(playerIndex, text2);
-					player.addCard(topCard);
-					
-					// Adds current hand to player output file
-					String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(player.getHand());
-					Helper.addingToOutputFile(playerIndex, text3);
+						// Removes card from top of deck to left of player, adds to hand
+						Card topCard = allCardDecks.get((playerIndex)).removeTopCard();
+						String text2 = "Player " + Integer.toString(playerIndex+1) + " draws a " + Integer.toString(topCard.getValueOf()) + " from deck " + Integer.toString(playerIndex + 1);
+						Helper.addingToOutputFile(playerIndex, text2);
+						player.addCard(topCard);
+						
+						// Adds current hand to player output file
+						String text3 = "Player " + Integer.toString(playerIndex + 1) + " current hand is " + Helper.printHand(player.getHand());
+						Helper.addingToOutputFile(playerIndex, text3);
+					}
 				}
 			}
 		}
@@ -88,7 +90,7 @@ public class CardGame{
 	 * @param player player that won
 	 * @param playerIndex index of player
 	 */
-	public static synchronized void gameWon(Player player, int playerIndex){
+	public static synchronized void gameWon(ArrayList<Player> allPlayers, ArrayList<CardDeck> allCardDecks, Player player, int playerIndex){
 		// Wait 100 milliseconds to make sure all players have finished their turn
 		try {
 			Thread.sleep(100);
@@ -113,7 +115,7 @@ public class CardGame{
 			Helper.addingToOutputFile(i, textFinal);
 		}
 		// Ends game
-		Thread.currentThread().interrupt();
+		//Thread.currentThread().interrupt();
 	}
 	
 
