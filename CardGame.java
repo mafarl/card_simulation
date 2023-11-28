@@ -29,7 +29,7 @@ public class CardGame{
 				if (counter.get() == false){
 					counter = new AtomicBoolean(true);
 					won = true;
-					gameWon(player, playerIndex);
+					gameWon(allPlayers, allCardDecks, player, playerIndex);
 				}
 			}
 			else{
@@ -39,7 +39,7 @@ public class CardGame{
 						if (counter.get() == false){
 							counter = new AtomicBoolean(true);
 							won = true;
-							gameWon(player, playerIndex);
+							gameWon(allPlayers, allCardDecks, player, playerIndex);
 						}
 					}
 					// Wait for 100 milliseconds before every turn to avoid race conditions
@@ -88,7 +88,7 @@ public class CardGame{
 	 * @param player player that won
 	 * @param playerIndex index of player
 	 */
-	public static synchronized void gameWon(Player player, int playerIndex){
+	public static synchronized void gameWon(ArrayList<Player> allPlayers, ArrayList<CardDeck> allCardDecks, Player player, int playerIndex){
 		// Wait 100 milliseconds to make sure all players have finished their turn
 		try {
 			Thread.sleep(100);
