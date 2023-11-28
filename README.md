@@ -5,4 +5,4 @@ To get started, run the CardGame.java file. Enter the number of players and the 
 
 ## Testing
 The program was written using the IDE Visual Studio Code (version 1.84.2) and JDK version 21. 
-To run and test the code run the TestSuite.java using your IDE. This runs all test classes using @RunWith(Suite.class). The testing framework used is JUnit 5.
+To run and test the code run the TestSuite.java using your IDE. This runs all test classes using @RunWith(Suite.class). The testing framework used is JUnit 4.
